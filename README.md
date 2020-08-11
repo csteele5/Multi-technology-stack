@@ -45,7 +45,7 @@ The task list will be incorporated into the Django backend and a link will be pr
 - [x] Sketch out high level design
 - [x] Create local repository for development
 - [x] Initialize README.md with plan for project
-- [ ] Create Git Repo and perform initial push
+- [X] Create Git Repo and perform initial push
 - [ ] Initialize framework for multiple container environment
 
 ### Build System Back End
@@ -74,6 +74,7 @@ The task list will be incorporated into the Django backend and a link will be pr
 - [ ] Create data structure
 - [ ] Create simple Django form
 - [ ] Apply user login
+- [ ] Migrate all historical and future tasks and issues to Tracker
 *The primary CRUD access to this snippet catalog will be through the admin pages, React, PHP*
 
 ### Build REST API Capability
