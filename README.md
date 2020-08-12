@@ -33,7 +33,7 @@ Additional technologies in planning stages:
 
 ## System Diagram
 
-![very scientific diagram goes here](assets/sysDiagram.jpg)
+![very scientific diagram goes here](repoassets/sysDiagram.jpg)
 
 ## Task List
 
@@ -44,7 +44,7 @@ This task list will be incorporated into the Django backend and a link will be p
 - [x] Create local repository for development
 - [x] Initialize README.md with plan for project
 - [X] Create Git Repo and perform initial push
-- [ ] Initialize framework for multiple container environment
+- [X] Initialize framework for multiple container environment
 
 ### Configure System Back End
 - [ ] Deploy Django out-of-box on Docker
@@ -97,3 +97,5 @@ Have Node talk to the API or React will directly interact with the API.
 ## References
 
 This is a list of the primary resources used to put these technologies together.
+
+**[Docker/Django Setup Steps](https://docs.docker.com/compose/django/)**
