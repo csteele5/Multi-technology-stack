@@ -47,10 +47,10 @@ This task list will be incorporated into the Django backend and a link will be p
 - [X] Initialize framework for multiple container environment
 
 ### Configure System Back End
-- [ ] Deploy Django out-of-box on Docker
-- [ ] Deploy Postgres in separate container
-- [ ] Initialize Postgres as data source for Django
-- [ ] Verify basic Django/Postgres functionality with persistent development data store
+- [x] Deploy Django out-of-box on Docker
+- [x] Deploy Postgres in separate container
+- [x] Initialize Postgres as data source for Django
+- [x] Verify basic Django/Postgres functionality with persistent development data store
 
 ### Build Django Applications
 
