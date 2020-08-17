@@ -27,9 +27,9 @@ The core web and database stack is defined in the docker-compose.yml, defined as
 The exposed port is changed to 6543 to allow administration from the host without clashing with a previously installed version of Postgres
 
 To Do Items:
-- [] Set up secure credentials from ENV variables and AWS Secrets?, or from GitHub mechanism
-- [] Set up local persisent storage version of database outside of container
-- [] Possibly migrate Postgres to RDS services if cost effective, for prod version
+- [ ] Set up secure credentials from ENV variables and AWS Secrets?, or from GitHub mechanism
+- [ ] Set up local persisent storage version of database outside of container
+- [ ] Possibly migrate Postgres to RDS services if cost effective, for prod version
 
 *Currently, the entire database code is contained in the db container, with no local persistent storage.  Until changed, do not delete this container during development unless starting over*
 

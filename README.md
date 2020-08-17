@@ -33,7 +33,7 @@ Additional technologies in planning stages:
 
 ## System Diagram
 
-![very scientific diagram goes here](repoassets/sysDiagram.jpg)
+![very scientific diagram goes here](repoassets/MultiStack.png)
 
 ## Task List
 
