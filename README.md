@@ -94,6 +94,10 @@ Have Node talk to the API or React will directly interact with the API.
 - Deploy to AWS - Ensure Postgres and Mongo DB are persistent in cloud environment
 - Create Code Pipeline
 
+### Step-by-Step Documentation
+
+- [Stack Configuration](StackConfig.md)
+
 ## References
 
 This is a list of the primary resources used to put these technologies together.
