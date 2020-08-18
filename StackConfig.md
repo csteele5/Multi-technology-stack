@@ -93,7 +93,7 @@ DATABASES = {
 }
 ```
 
-***Step 4: Create the containers, launching the stack***
+**Step 4: Create the containers, launching the stack**
 
 From the root of the repository, where the docker-compose.yml file lives:
 ```
@@ -101,11 +101,61 @@ docker-compose up
 ```
 This configuration has our web server running on port 8000.  In the browser, open ```http://localhost:8000 ```
 
-**SUCCESS**
+*This results in a successfully launched Django/Postgres web database system*
+
+**Step 5: Build out Django models and functionality**
+
+In order to create new apps and run migrations on the web image, a linux shell must be opened.  As shown above, run ```docker ps -a``` to get the container ID for the web, then run the following to get a bash prompt:
+```
+docker exec -it <container ID> /bin/bash
+```
+Once the prompt is open (and assuming the volume to the host dev repository is still indicated in the docker-compose.yml) any changes made by manage.py will be reflected in the host files.  For example:
+```
+python manage.py startapp snippets  
+```
+After the above is run, a new **snippets** directory appears in the host repo for the new django app.  Local file edits directly to that directory are immediately reflected in the running console for the system (where the docker-compose command to start the system was run).
+
+**In order to modify the newly created application:** 
+When python from within the container creates a new directory on the host, the rights of that directory must be changed so the user can make modifications.  This is the same issue that occurred above when the Django project was initially created. In this example, from within the snippets directory, run:
+```
+ls -l   #check rights
+sudo chown -R $USER:$USER .   #change rights
+``` 
+Now changes to the models, views, etc can begin. 
+
+**Reminder:** *Any changes requiring migrations to be run must be performed in the above bash prompt for the web container.*
+
+**Step 5.1: Installing python modules into Docker Container**
+
+As an example, the pygments model used in the snippets model is not included in the python image and must be installed.  This can be run manually from the above bash statement, but once the container is rebuilt, it will need to be installed again.  To check which modules are installed currently, type ```pip freeze``` in the container's console.
+
+To solve the problem of having to manually install the module, the appropriate command must be added to the Dockerfile, or preferrably in the requirements.txt
+
+To update the requirements.txt with the exact versions of the installed packages, follow these steps:
+
+- Launch the containers and open a bash prompt for the web container
+- Run ```pip install <package name>``` for the target package
+- Verify the package is installed properly: ```pip freeze```
+- Use the following command to overwrite the requirements.txt file (save a copy first): ```pip freeze > requirements.txt```
+- Edit the file and remove anything that is already installed as a part of the base docker image.  Then edit the packages to install from exact versions to minimum versions:
+```
+Django>=2.0,<3.0
+psycopg2-binary>=2.8
+Pygments==2.6.1
+```
+- Save file, shut down containers, delete the web container and relaunch
+- Open the bash prompt and verify the packages are installed.
+
+Useful blog on requirements.txt [HERE](https://note.nkmk.me/en/python-pip-install-requirements/)
+
+**Massive Gotcha on requirements.txt** 
+If the above changes to the packages does not actually install during the build process, but you can run ```pip install -r requirements.txt``` successfully from the container bash, delete both the container AND the image and try again. (save 2 hours of your life)
 
 ## Stack Extension
 
-**TBD**
+Now that the base stack has been configured, additional technologies can be added by building on the base docker-compose.yml.  
+
+**Next steps TBD**
 
 
 ---
