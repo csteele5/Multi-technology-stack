@@ -1,0 +1,192 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+{% if messages %}
+    {% for message in messages %}
+    <div class="alert {% if message.tags %} alert-{{ message.tags }}{% endif %}"" role="alert">{{ message }}</div>
+    {% endfor %}
+{% endif %}
+
+<!-- <p>{{ view.kwargs.msg}}</p> -->
+<div class="mt-md-3">
+    <h1>{{ object }}</h1>
+</div>   
+
+<div class="card">
+    <div class="card-body">
+        <form>
+            <div class="form-row">
+                <div class="form-group col-md-4">
+                    <label for="inputStartDate">Sprint Start</label>
+                    <input class="form-control" id="inputStartDate" value="{{ object.sprint_start_date }}" readonly>
+                </div>
+                <div class="form-group col-md-4">
+                    <label for="inputEndDate">Sprint End</label>
+                    <input class="form-control" id="inputEndDate" value="{{ object.sprint_end_date }}" readonly>
+                </div>
+                <div class="form-group col-md-4">
+                    <label for="inputGoLiveDate">Project Go Live</label>
+                    <input class="form-control" id="inputGoLiveDate" value="{{ object.project_team.go_live_date }}" readonly>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-4">
+                    <label for="inputStartDate">Assigned Points</label>
+                    <input class="form-control" id="inputAssignedPoints" value="{{ object.assigned_points }}" readonly>
+                </div>
+                <div class="form-group col-md-4">
+                    <label for="inputEndDate">Completed Points</label>
+                    <input class="form-control" id="inputCompletedPoints" value="{{ object.completed_points }}" readonly>
+                </div>
+                <div class="form-group col-md-4">
+                    <label for="inputGoLiveDate">Completion %</label>
+                    <input class="form-control" id="inputCompletionPercentage" value="{{ object.completion_percentage }}" readonly>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<div class="row mt-md-3">
+    <div class="col-md-4">
+        <div class="card" style="width: 18rem;">
+            <div class="card-body">
+                <h5 class="card-title">Project Team</h5>
+                <!-- <p class="card-text"><em>Assigned to this project.</em></p> -->
+                <table class="table">
+                    <caption>Modify in <strong>Admin</strong></caption>
+                    <tbody>
+                        <tr class="table-primary">
+                            <th scope="row">Lead</th>
+                            <td>{{ object.project_team.team_lead.first_name }} {{object.project_team.team_lead.last_name }}</td>
+                        </tr>
+                        
+                        {% if team_list %}
+                            {% for team_member in team_list %} 
+                            <tr>
+                                <th scope="row">Engineer</th>
+                                <td>{{ team_member }}</td>
+                            </tr>
+                            {% endfor %}
+                        {% else %}
+                    
+                            <tr class="table-danger">
+                            <th scope="row" colspan="2">No engineers returned.</th>
+                            </tr>
+                        {% endif %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Pair Coding Assignment</h5>
+                <!-- <p class="card-text"><em>Assigned to this project.</em></p> -->
+                
+                {% if pairing_list %}
+                    {% for pair in pairing_list %} 
+                    <div class=''><!--col-12 col-md-10 mb-3 mx-auto-->
+                        <div class='card '>
+                           <div class='card-body'>
+                               <!-- <h5 class='card-title'>{{ pair.pairing_name  }}</h5> -->
+                               
+                                <form action="{% url 'schedule:sprint-pairupdate' id=pair.id %}" method="post" >
+                                    {% csrf_token %}
+                                    <div class="form-row">
+                                        <div class="form-group col-md-3">
+                                            <label for="inputPairingName">Pairing</label>
+                                            <input name="" class="form-control form-control-sm" value="{{ pair.pairing_name }}" readonly>
+                                        </div>
+                                        <div class="form-group col-md-3">
+                                            <label for="inputAssignedPoints">Assigned Pts</label>
+                                            <input name="inputAssignedPoints" class="editable-stats form-control form-control-sm" value="{{ pair.assigned_points }}" readonly>
+                                        </div>
+                                        <div class="form-group col-md-3">
+                                            <label for="inputCompletedPoints">Completed Pts</label>
+                                            <input name="inputCompletedPoints" class="editable-stats form-control form-control-sm" value="{{ pair.completed_points }}" readonly>
+                                        </div>
+                                        <div class="form-group col-md-2">
+                                            <label for="inputCompletionPercentage">Comp %</label>
+                                            <input name="inputCompletionPercentage" class="form-control form-control-sm" value="{{ pair.completion_percentage }}" readonly>
+                                        </div>
+                                        <div class="form-group col-md-1" id="actionCell_{{ pair.id }}">
+                                            <label for="inputEdit"> </label>
+                                            <!-- <input type="hidden" name="pairingID" value="{{ pair.id }}" > -->
+                                            <a href="#" class="pairEdit"><i class="fas fa-edit"></i></a>
+
+                                            <a href="#" class="pairSave d-none"><i class="fas fa-save"></i></a>
+                                            
+                                        </div>
+                                    </div>
+                                </form>
+                       
+                           </div>
+                       
+                        </div>
+                    </div>
+
+
+                    {% endfor %}
+                {% else %}
+                    <p class="text-danger"><em>No pairs established.</em></p>  
+                        {% if not team_list %}
+                            <p><strong>Note:</strong> Engineers must be added to the team before coding pairs can be generated.</p>
+                        {% else %}
+                            <!-- <p>Select <strong>Build Pairs</strong> from the <a href='{{ object.get_absolute_url }}update/'>edit</a> page 
+                            to generate the list automatically.</p> -->
+
+                            <!-- Button trigger modal -->
+                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#buildCodingPairs">
+                                Create Coding Pairs
+                            </button>
+
+                        {% endif %}
+                    
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col">
+        <p>
+            <a href='#'><i class="fas fa-backward return_to_list_post_link"></i></a>
+            <a href='#' class="return_to_list_post_link">return to list</a> 
+            <!-- | <a href='{{ object.get_absolute_url }}update/'>edit</a> {% url 'schedule:sprint-list' %}-->
+        </p>
+    </div>
+</div>
+<form action="{% url 'schedule:sprint-list' %}" method="post" id="returntolistform">
+    {% csrf_token %}
+    <input type="hidden" name="project_team" id="project_team" value="{{ object.project_team.id }}" />
+</div>
+</form>    
+
+  
+  <!-- Modal -->
+  <div class="modal fade" id="buildCodingPairs" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="buildCodingPairsLabel">Build Coding Pairs</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          This action will build a set of tandem coding pairs for the duration of this sprint 
+          based on the work history of the team engineers.
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary " data-dismiss="modal">Close</button>
+          <!-- <button type="button" class="btn btn-primary">Understood</button> -->
+          <a href='{{ object.get_absolute_url }}pairbuild/' role="button" class="btn btn-primary">Continue</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+{% endblock %}

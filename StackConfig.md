@@ -11,7 +11,24 @@ The core web and database stack is defined in the docker-compose.yml, defined as
 - **db** - Postgres database, core SQL
 - **web** - Django driven 
 
+And although not a requirement for a simple stack, it is good practice to designate a network, which will be added to each service in the stack:
+
+```
+networks:
+    steelestack:
+```
+
 ### db notes
+
+A volume can be added to create a persistent store for the database.  For mySQL, a simple pointer to the repository works fine, but in Postgres, this is not as simple.  The recommendation is to create a docker volume in the docker-compose, which will stay live even when the system is brought down and rebuilt:
+```
+volumes:
+  db-data:
+    driver: local
+```
+```docker system prune -a --volumes``` *will delete the above volume,* **so be aware**
+
+Here is what the resulting db section should look like:
 
 ```
     db:
@@ -23,15 +40,21 @@ The core web and database stack is defined in the docker-compose.yml, defined as
       # this is for local administration only
       ports:
         - "6543:5432"
+      volumes:
+        - db-data:/var/lib/postgresql/data
+      networks:
+        - steelestack
 ```
 The exposed port is changed to 6543 to allow administration from the host without clashing with a previously installed version of Postgres
 
 To Do Items:
 - [ ] Set up secure credentials from ENV variables and AWS Secrets?, or from GitHub mechanism
-- [ ] Set up local persisent storage version of database outside of container
-- [ ] Possibly migrate Postgres to RDS services if cost effective, for prod version
+- [x] Set up local persisent storage version of database outside of container **
+- [ ] Migrate Postgres to RDS services for prod version OR understand how to make persistent within ECS or EC2
 
-*Currently, the entire database code is contained in the db container, with no local persistent storage.  Until changed, do not delete this container during development unless starting over*
+****Notes on Postgres persistent storage**
+
+Initially, the entire database code is housed in a docker volume created on build, which is not persistent.  These volumes are generically named and viewable using ```docker volume ls```  In order to resolve this (at least for local development), a volume must be declared and used in the docker-compose, as shown in the DB Notes above. [ref](https://linuxhint.com/run_postgresql_docker_compose/)
 
 ### web notes
 
@@ -49,6 +72,8 @@ To Do Items:
         - ./img-baseclient:/code
       ports:
         - "8000:8000"
+      networks:
+        - steelestack
       depends_on:
         - db
 ```
@@ -61,15 +86,23 @@ docker exec -it <container ID> /bin/bash
 
 ### Initiation of the core stack.
 
-This files initially used to create the stack, before modifications, is contained in the codearchive> coreinitiation directory.  This along with the following commands, executed at the root directory of the repo, will set up a brand new base stack with 2 containers: web with Django, db with Postgres.
+The files initially used to create the stack, before modifications, are contained in the codearchive> coreinitiation directory.  This along with the following commands, executed at the root directory of the repo, will set up a brand new base stack with 2 containers: web with Django, db with Postgres.
 
-**Step 1: Create the Django project in the local dev folder from the web image**
+**Step 1: Create the Super User to Access Django Admin**
+
+If this is the first time launching the system or the postgres container has been wiped and rebuilt, a super user must.
+
 ```
-sudo docker-compose run --rm django-admin startproject steelecore ./img-baseclient
+sudo docker-compose run web python manage.py createsuperuser
+```
+
+**Step 2: Create the Django project in the local dev folder from the web image**
+```
+sudo docker-compose run web django-admin startproject steelecore ./img-baseclient
 ```
 This will create the steelecore Django project, but will not launch the stack yet. The image that was initiated from the command will be removecd after the project has started.  (--rm)
 
-**Step 2: Set the rights on the newly created Django folder**
+**Step 3: Set the rights on the newly created Django folder**
 
 The steelecore folder was created using **sudo**, so we need to set the rights so the current user can modify the files.  From within the img-baseclient directory:
 ```
@@ -77,7 +110,7 @@ ls -l   #check rights
 sudo chown -R $USER:$USER .   #change rights
 ```
 
-**Step 3: Update the Django project to use Postgres instead of sqlite**
+**Step 4: Update the Django project to use Postgres instead of sqlite**
 
 Find the settings.py file in the new Django project.  Replace the DATABASES section with the following:
 ```
@@ -93,11 +126,11 @@ DATABASES = {
 }
 ```
 
-**Step 4: Create the containers, launching the stack**
+**Step 5: Create the containers, launching the stack**
 
 From the root of the repository, where the docker-compose.yml file lives:
 ```
-docker-compose up
+docker-compose up  # option to add --build and/or -d
 ```
 This configuration has our web server running on port 8000.  In the browser, open ```http://localhost:8000 ```
 
@@ -124,6 +157,12 @@ sudo chown -R $USER:$USER .   #change rights
 Now changes to the models, views, etc can begin. 
 
 **Reminder:** *Any changes requiring migrations to be run must be performed in the above bash prompt for the web container.*
+
+```
+sudo docker-compose run web python manage.py makemigrations #<appname>
+sudo docker-compose run web python manage.py migrate
+```
+
 
 **Step 5.1: Installing python modules into Docker Container**
 

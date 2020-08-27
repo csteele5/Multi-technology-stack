@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+  
+  <div class="alert alert-primary" role="alert">
+    Use the guest login to check out the scheduler.  <b>User: </b>testlead <b>Password: </b>testlead
+    </div>
+  <div class="row justify-content-md-center " style="margin-top: 50px;">
+    <!-- <div class="col col-lg-2">
+      1 of 3
+    </div> -->
+    <div class="col-md-auto">
+        <form method="post" action="{% url 'login' %}">
+          {% csrf_token %}
+          <table>
+            <tr>
+              <td colspan="2">
+                {% if form.errors %}
+                    <p>Your username and password didn't match. Please try again.</p>
+                {% endif %}
+                {% if next %}
+                    {% if user.is_authenticated %}
+                        <p>Your account doesn't have access to this page.<br>To proceed,
+                        please login with an account that has access.</p>
+                    {% else %}
+                        <p>Please login to see this page.</p>
+                    {% endif %}
+                {% else %}  
+                    <h2>Please Log In</h2>
+                {% endif %}
+              </td>
+            </tr>
+            <tr>
+              <td>{{ form.username.label_tag }}</td>
+              <td>{{ form.username }}</td>
+            </tr>
+            <tr>
+              <td>{{ form.password.label_tag }}</td>
+              <td>{{ form.password }}</td>
+            </tr>
+            <tr>
+              <td></td>
+              <td>
+                <input type="submit" value="login" />
+                <input type="hidden" name="next" value="{{ next }}" />
+              </td>
+            </tr>
+            <tr>
+              <td></td>
+              <td>
+                {# Assumes you setup the password_reset view in your URLconf #}
+                <!-- <p><a href="{% url 'password_reset' %}">Lost password?</a></p> -->
+              </td>
+            </tr>
+          </table>
+        </form>
+    </div>
+    <!-- <div class="col col-lg-2">
+      3 of 3
+    </div> -->
+  </div>
+  
+  
+{% endblock %}

@@ -1,5 +1,12 @@
 version: '3'
-    
+
+networks:
+  steelestack:
+
+volumes:
+  db-data:
+    driver: local
+
 services:
     db:
       image: postgres
@@ -10,6 +17,12 @@ services:
       #this is for local administration only
       ports:
         - "6543:5432"
+      #volumes:
+        #- ./img-postgres/postgres-data:/var/lib/postgresql/data
+      volumes:
+        - db-data:/var/lib/postgresql/data
+      networks:
+        - steelestack
     web:
       build: 
         dockerfile: Dockerfile
@@ -26,5 +39,7 @@ services:
         - ./img-baseclient:/code
       ports:
         - "8000:8000"
+      networks:
+        - steelestack
       depends_on:
         - db
