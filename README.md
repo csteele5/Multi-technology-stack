@@ -1,5 +1,7 @@
 # Multi Technology Stack
 
+[IMPORTANT DEVELOPMENT REMINDER](ReadBeforeMakingChanges.md)
+
 ## Summary
 
 This repository contains details of all the components of this web/database stack. The purpose of this system is to showcase different technologies integrated together to manage the following:
