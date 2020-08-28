@@ -9,69 +9,95 @@ Use the guest login to check out the scheduler.  <b>User: </b>testlead <b>Passwo
 </div>
 {% endif %}
 
-<div class="row align-items-center container-lg">
-    <div class="col-lg">
-        <h1 class="cover-heading">Welcome to the Sprint Scheduler</h1>
-        <p class="lead">Create project teams and add resources. Automatically create sprints with evenly distributed pair assignments.
-           Track and update assigned and completed story points. Rinse and repeat.
-        </p>
-        <p class="lead">
-          <a href="{% url 'schedule:sprint-list' %}" class="btn btn-lg btn-secondary">View Schedule</a>
-        </p>
-    </div>
+<div class="jumbotron" style="padding: 2rem !important">
+  <h1 class="display-4">Hello World, from the Steele Lounge</h1>
+  <p class="lead">This is the place where the stuff is. If you were not looking for it, you certainly found it. Whatever it is.</p>
+  <hr class="my-4">
+  <p>Select from a growing list of sample apps and functions, that utilize different technologies.</p>
+  <!-- <a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a> -->
 </div>
-<h2>What kind of pairings work best?</h2>
-<ul class="list-unstyled">
-    <li class="media">
-      <img src="{% static "images/cyclists.jpg" %}"  width="150" class="mr-4" alt="tandem stuff">
-      <div class="media-body">
-        <h5 class="mt-0 mb-1">Precision</h5>
-        You crank through code like a well-oiled machine, aerodynamic and a little intense.  Your work ethic is appreciated and envied, but please leave the spandex at home.
+
+<div class="row">
+  <div class="col-6">
+    <div class="row align-items-center container-lg">
+      <div class="col-lg">
+          <h1 class="cover-heading">Sprint Scheduler</h1>
+          <p class="lead">Create project teams and add resources. Automatically create sprints with evenly distributed pair assignments.
+             Track and update assigned and completed story points. Rinse and repeat.
+          </p>
+          <p class="lead">
+            <a href="{% url 'schedule:sprint-list' %}" class="btn btn-lg btn-secondary">View Schedule</a>
+          </p>
       </div>
-    </li>
-    <li class="media my-4">
-        <img src="{% static "images/kayak.jpg" %}"  width="150" class="mr-4" alt="tandem stuff">
-      <div class="media-body">
-        <h5 class="mt-0 mb-1">Wet 'n Wild</h5>
-        Every code assignment is like a crazy slide down a waterfall, but you somehow manage to deliver.
-      </div>
-    </li>
-    <li class="media">
-        <img src="{% static "images/skateboard.png" %}" width="150" class="mr-4" alt="tandem stuff">
-      <div class="media-body">
-        <h5 class="mt-0 mb-1">Laid Back</h5>
-        You've got your mind on your money and your money on your mind (saving the gin 'n juice for after work).
-      </div>
-    </li>
-    <li class="media my-4">
-        <img src="{% static "images/skydive.jpg" %}"  width="150" class="mr-4" alt="tandem stuff">
-      <div class="media-body">
-        <h5 class="mt-0 mb-1">High Risk</h5>
-        It's all adrenaline and right on the edge.  Will this thing work, or won't it?  No worries... the chute usually opens.
-      </div>
-    </li>
-    <li class="media my-4">
-        <img src="{% static "images/mtb.jpg" %}"  width="150" class="mr-4" alt="tandem stuff">
-      <div class="media-body">
-        <h5 class="mt-0 mb-1">Catching Air</h5>
-        The ups and downs are crazy, with a few spills along the way.  Similar to Wet 'n Wild, but it's a little rougher when you take a spill.  Someone might need to work on their resume.
-      </div>
-    </li>
-    <li class="media my-4">
-        <img src="{% static "images/pair.jpg" %}"  width="150" class="mr-4" alt="tandem stuff">
-      <div class="media-body">
-        <h5 class="mt-0 mb-1">Aggro Noobs</h5>
-        This is serious business, and it shows on your faces.  Take it down one notch and you will live longer.
-      </div>
-    </li>
-    <li class="media my-4">
-        <img src="{% static "images/unicyclist.jpg" %}"  width="150" class="mr-4" alt="tandem stuff">
-      <div class="media-body">
-        <h5 class="mt-0 mb-1">Perfectly Balanced</h5>
-        On paper, it just doesn't seem like this pairing will work.  The tools are a little off and you look a little shaky, however, your balance is impeccable.  Everyone thinks you're wacky, but you are the perfect team.
-      </div>
-    </li>
-  </ul>
-  <h3><i>How do you describe your team?</i></h3>
+  </div>
+  <h2>What kind of pairings work best?</h2>
+  <ul class="list-unstyled">
+      <li class="media">
+        <img src="{% static "images/cyclists.jpg" %}"  width="150" class="mr-4" alt="tandem stuff">
+        <div class="media-body">
+          <h5 class="mt-0 mb-1">Precision</h5>
+          You crank through code like a well-oiled machine, aerodynamic and a little intense.  Your work ethic is appreciated and envied, but please leave the spandex at home.
+        </div>
+      </li>
+      <li class="media my-4">
+          <img src="{% static "images/kayak.jpg" %}"  width="150" class="mr-4" alt="tandem stuff">
+        <div class="media-body">
+          <h5 class="mt-0 mb-1">Wet 'n Wild</h5>
+          Every code assignment is like a crazy slide down a waterfall, but you somehow manage to deliver.
+        </div>
+      </li>
+      <li class="media">
+          <img src="{% static "images/skateboard.png" %}" width="150" class="mr-4" alt="tandem stuff">
+        <div class="media-body">
+          <h5 class="mt-0 mb-1">Laid Back</h5>
+          You've got your mind on your money and your money on your mind (saving the gin 'n juice for after work).
+        </div>
+      </li>
+      <li class="media my-4">
+          <img src="{% static "images/skydive.jpg" %}"  width="150" class="mr-4" alt="tandem stuff">
+        <div class="media-body">
+          <h5 class="mt-0 mb-1">High Risk</h5>
+          It's all adrenaline and right on the edge.  Will this thing work, or won't it?  No worries... the chute usually opens.
+        </div>
+      </li>
+      <li class="media my-4">
+          <img src="{% static "images/mtb.jpg" %}"  width="150" class="mr-4" alt="tandem stuff">
+        <div class="media-body">
+          <h5 class="mt-0 mb-1">Catching Air</h5>
+          The ups and downs are crazy, with a few spills along the way.  Similar to Wet 'n Wild, but it's a little rougher when you take a spill.  Someone might need to work on their resume.
+        </div>
+      </li>
+      <li class="media my-4">
+          <img src="{% static "images/pair.jpg" %}"  width="150" class="mr-4" alt="tandem stuff">
+        <div class="media-body">
+          <h5 class="mt-0 mb-1">Aggro Noobs</h5>
+          This is serious business, and it shows on your faces.  Take it down one notch and you will live longer.
+        </div>
+      </li>
+      <li class="media my-4">
+          <img src="{% static "images/unicyclist.jpg" %}"  width="150" class="mr-4" alt="tandem stuff">
+        <div class="media-body">
+          <h5 class="mt-0 mb-1">Perfectly Balanced</h5>
+          On paper, it just doesn't seem like this pairing will work.  The tools are a little off and you look a little shaky, however, your balance is impeccable.  Everyone thinks you're wacky, but you are the perfect team.
+        </div>
+      </li>
+    </ul>
+    <h3><i>How do you describe your team?</i></h3>
+  </div>
+  <div class="col-6">
+    <div class="col-6">
+      <div class="row align-items-center container-lg">
+        <div class="col-lg">
+            <h1 class="cover-heading">Code Snippets</h1>
+            <p class="lead">Save and categorize important code snippets for reuse in different projects.
+            </p>
+            <p class="lead">
+              <a href="{% url 'schedule:sprint-list' %}" class="btn btn-lg btn-secondary">Go to Snippets</a>
+            </p>
+        </div>
+    </div>   
+  </div>
+
+</div>
     
 {% endblock %}
