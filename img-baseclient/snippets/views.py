@@ -20,3 +20,14 @@ def snippet_list_view(request):
                 # 'language_filter': language_filter,
               }
     return render(request, template_name, context) 
+
+@login_required
+def snippet_detail_view(request, id):
+    obj = get_object_or_404(Snippet, id=id)
+    context = {
+        'object': obj
+        }
+    #context['project'] = ProjectTeam.objects.filter(id=obj.project_team.id)
+    #context['team_list'] = Engineer.objects.filter(project_team=obj.project_team, available_for_sprint=True)
+    #context['pairing_list'] = SprintPairing.objects.filter(sprint=obj.id)
+    return render(request, "snippets/snippet_detail.html", context)

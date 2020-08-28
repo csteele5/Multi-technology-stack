@@ -1,11 +1,11 @@
 from django.urls import path
 
-from snippets.views import (snippet_list_view)
+from snippets.views import (snippet_list_view,snippet_detail_view)
 
 app_name = 'snippets'
 urlpatterns = [
     path('', snippet_list_view, name='snippet-list'),
-    # path('<int:id>/', snippet_detail_view, name='snippet-detail'),
+    path('<int:id>/', snippet_detail_view, name='snippet-detail'),
     # path('<int:id>/pairbuild/', pair_build_view, name='sprint-pairbuild'),
     # path('sprintpair/<int:id>/update/', pair_update_view, name='sprint-pairupdate'),
     

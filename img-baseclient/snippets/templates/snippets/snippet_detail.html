@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% block scripts %}
+<!-- block.super will get the content of the block from the parent template -->
+{{ block.super }}
+<!-- <script src="{{ STATIC_URL }}js/snippet.js"></script> -->
+<!-- This is not what I want.  It grabs the js from the base level and not from the application!! -->
+<!--https://stackoverflow.com/questions/34586259/how-to-organize-js-files-in-django-->
+
+<!-- This post finally helped me understand how to do this-->
+<!-- https://stackoverflow.com/questions/54842384/django-unable-to-load-static-files-->
+<!-- This one point to the base project static folder -->
+<!-- <script type="text/javascript" src="{% static 'js/snippet.js' %}"></script> -->
+
+<!-- ###This one points to the static folder within the specific application!###-->
+<!-- <script type="text/javascript" src="{% static 'snippets/js/snippet.js' %}"></script> -->
+<script type="text/javascript" src="{% static 'snippets/js/snippet.js' %}"></script> 
+{% endblock %}
+
+
+{% block content %}
+{% if messages %}
+    {% for message in messages %}
+    <div class="alert {% if message.tags %} alert-{{ message.tags }}{% endif %}"" role="alert">{{ message }}</div>
+    {% endfor %}
+{% endif %}
+
+<!-- <p>{{ view.kwargs.msg}}</p> -->
+<div class="mt-md-3">
+    <h1>{{ object }}</h1>
+</div>   
+
+<p>FORM GOES HERE</p>
+
+<div class="row">
+    <div class="col">
+        <p>
+            <a href='#'><i class="fas fa-backward return_to_list_post_link"></i></a>
+            <a href='#' class="return_to_snippet_list_post_link">return to list</a> 
+            <!-- | <a href='{{ object.get_absolute_url }}update/'>edit</a> {% url 'schedule:sprint-list' %}-->
+        </p>
+    </div>
+</div>
+<form action="{% url 'snippets:snippet-list' %}" method="post" id="returntolistform">
+    {% csrf_token %}
+    <!-- <input type="hidden" name="language" id="language" value="{{ object.language.id }}" /> -->
+</div>
+</form>   
+
+
+
+{% endblock %}

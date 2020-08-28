@@ -61,6 +61,50 @@ docker-compose run web python manage.py makemigrations
 docker-compose run web python manage.py migrate
 ```
 
+## File Structure Notes
+
+**Setting Up Static Files**
+
+Static files (img, css, js, etc) can be set up at the base project level or within a particular application.  The optimal situation with the exception of core code (bootstrap, jquery) is that application specific stuff should exist within the app.  This can be a pain and is not clear in the Django documention.  Here are notes on a successful example from the snippets application.
+
+*#####Serving static files from within an application####*
+This post finally helped me understand how to do this: [Good Stack Overflow](https://stackoverflow.com/questions/54842384/django-unable-to-load-static-files)
+This one wasn't too much help: [Eh Stack Overflow](https://stackoverflow.com/questions/34586259/how-to-organize-js-files-in-django)
+
+The keys to success for me: 
+- Name the static file 'static'.  Don't get cute with the name.  In settings.py
+```
+STATIC_URL = '/static/'
+
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, "static"),
+    '/var/www/static/',
+]
+
+```
+- Then in the base and individual templates, use the {% block scripts %} tag, with the call to the file inside.
+*templates/base.html*
+```
+  </body>
+  {% block scripts %}
+
+  {% endblock %}
+</html>
+```
+
+*snippets/templates/snippets/snippet_detail.html*
+```{% block scripts %}
+<!-- block.super will get the content of the block from the parent template. Maybe not useful -->
+{{ block.super }}
+<!-- This one point to the base project static folder -->
+<!-- <script type="text/javascript" src="{% static 'js/snippet.js' %}"></script> -->
+
+<!-- ###This one points to the static folder within the specific application!###-->
+<!-- <script type="text/javascript" src="{% static 'snippets/js/snippet.js' %}"></script> -->
+<script type="text/javascript" src="{% static 'snippets/js/snippet.js' %}"></script> 
+{% endblock %}
+```
+*AGAIN - The above clip shows how from the application template, you can include a file located in the base project static folder vs the application level static folder (which is optimal)*
 
 ## Tasks
 

@@ -59,15 +59,15 @@ This task list will be incorporated into the Django backend and a link will be p
 **Build Application #1a - Agile Sprint Scheduler**
 - [x] Create data structure
 - [x] Create entire Django bases application in Docker
-- [ ] Port over to repository
+- [x] Port over to repository
 - [ ] Possible database change to Postgres, leveraging existing container
 
 **Build Application #1b - Code Snippet Catalog**
-- [ ] Create data structure (possibly in direct scheduler system as new app)
+- [x] Create data structure (possibly in direct scheduler system as new app)
 - [ ] Create simple Django form
-- [ ] Integrate with 
-- [ ] Build user login (leverage from Scheduler)
-- [ ] Apply user login (leverage from Scheduler)
+- [ ] Integrate with existing front end pages
+- [x] Build user login (leverage from Scheduler)
+- [x] Apply user login (leverage from Scheduler)
 *The primary CRUD access to this snippet catalog will be through the admin pages, React, PHP*
 
 **Build Application #2 - Simple Poll**
@@ -113,4 +113,4 @@ This is a list of the primary resources used to put these technologies together.
 
 **[Docker/Django Setup Steps](https://docs.docker.com/compose/django/)**
 
-[Additional Repo Setup Notes](SETUP_Notes.md)
+[Additional Repo Setup Notes](SetupNotes.md)

@@ -1,4 +1,5 @@
 from django.db import models
+from django.urls import reverse
 from pygments.lexers import get_all_lexers
 from pygments.styles import get_all_styles
 from pygments.lexers import get_lexer_by_name
@@ -26,11 +27,18 @@ class Snippet(models.Model):
     class Meta:
         ordering = ['created']
 
+    def short_code(self):
+        shortened = (self.code[:75] + '..') if len(self.code) > 77 else self.code
+        return shortened
+
     def __str__(self):
         if self.title:
             return self.title
         else:
             return self.code
+    
+    def get_absolute_url(self):
+        return reverse("snippets:snippet-detail", kwargs={"id":self.id}) 
 
     def save(self, *args, **kwargs):
         """
