@@ -1,2 +1,3 @@
 filetoignore.txt
 img-postgres/
+.vscode/

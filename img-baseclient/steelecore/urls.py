@@ -25,6 +25,7 @@ urlpatterns = [
     path('admin/', admin.site.urls, name='admin'),
     path('', home_page, name='home'),
     path('schedule/', include('schedule.urls', namespace='schedule')),
+    path('snippets/', include('snippets.urls', namespace='snippets')),
 ]
 
 #Add Django site authentication urls (for login, logout, password management)
