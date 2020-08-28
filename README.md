@@ -112,3 +112,5 @@ Have Node talk to the API or React will directly interact with the API.
 This is a list of the primary resources used to put these technologies together.
 
 **[Docker/Django Setup Steps](https://docs.docker.com/compose/django/)**
+
+[Additional Repo Setup Notes](SETUP_Notes.md)
