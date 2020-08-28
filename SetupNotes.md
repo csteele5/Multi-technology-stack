@@ -72,7 +72,9 @@ This post finally helped me understand how to do this: [Good Stack Overflow](htt
 This one wasn't too much help: [Eh Stack Overflow](https://stackoverflow.com/questions/34586259/how-to-organize-js-files-in-django)
 
 The keys to success for me: 
-- Name the static file 'static'.  Don't get cute with the name.  In settings.py
+- Name the static directories 'static'.  Don't get cute with the name.  
+
+*settings.py*
 ```
 STATIC_URL = '/static/'
 
@@ -83,6 +85,7 @@ STATICFILES_DIRS = [
 
 ```
 - Then in the base and individual templates, use the {% block scripts %} tag, with the call to the file inside.
+
 *templates/base.html*
 ```
   </body>
