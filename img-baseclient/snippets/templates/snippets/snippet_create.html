@@ -28,53 +28,70 @@
 
 <!-- <p>{{ view.kwargs.msg}}</p> -->
 <div class="mt-md-3">
-    <h1>{{ object }}</h1>
+    <h1>Create New Code Snippet</h1>
 </div>   
 
-<form action="{% url 'snippets:snippet-update' id=object.id %}" method="post" class="needs-validation" novalidate >
+<form action="{% url 'snippets:snippet-save' %}" method="post" id="newSnippetForm" class="needs-validation" novalidate>
     {% csrf_token %}
     <div class="form-row">
         <div class="form-group col-md-10">
             <label for="inputTitle">Title</label>
-            <input type="text" class="form-control" id="inputTitle" name="inputTitle" value="{{ object.title }}" readonly required >
+            <input type="text" class="form-control" id="inputTitle" name="inputTitle" value="" placeholder="descriptive title" required>
+            <div class="valid-feedback">
+                Looks good!
+            </div>
+            <div class="invalid-feedback">
+                Please provide a snippet title.
+            </div>
         </div>
         <div class="form-group col-md-2" id="snippetIDDiv">
             <label for="inputSnippetID">Snippet #</label>
-            <input type="text" class="form-control" id="inputSnippetID" name="inputSnippetID" value="{{ object.id }}" readonly>
+            <input type="text" class="form-control" id="inputSnippetID" name="inputSnippetID" value="new" readonly>
         </div>
     </div>
     <div class="form-group">
       <label for="inputCode">Code</label>
-      <textarea class="form-control" id="inputCode" rows="10" name="inputCode" readonly required >{{ object.code }}</textarea>
+      <textarea class="form-control" id="inputCode" rows="10" name="inputCode"  placeholder="code snippet in selected language" required></textarea><div class="valid-feedback">
+        Looks good!
+      </div>
+      <div class="invalid-feedback">
+          Please provide the snippet code.
+      </div>
     </div>
     
     <div class="form-row">
         <div class="form-group col-md-3">
           <label for="inputLanguage">Language</label>
-            <select name="inputLanguage" class="form-control" id="inputLanguage" readonly disabled="yes" required >
+            <select name="inputLanguage" class="form-control" id="inputLanguage" required>
                 <option value="" />- select language -</option>
                 
                 {% if language_list %}
                     {% for key, value in language_list.items %}
                     <option value="{{ key }}" 
-                        {% if object.language == key %}
-                            selected="yes"
-                        {% endif %}
-                        />{{ value }}</option>
+                    {% if newlanguage == key %}
+                        selected="yes"
+                    {% endif %}
+                     />{{ value }}</option>
                     {% endfor %}
                 {% else %}
                     <option value="" />No languages available!</option>
                 {% endif %}
             </select>
+            <div class="valid-feedback">
+                Looks good!
+            </div>
+            <div class="invalid-feedback">
+                Please select a language.
+            </div>
         </div>
         <div class="form-group col-md-3">
           <label for="inputStyle">Style</label>
-          <select name="inputStyle" class="form-control" id="inputStyle" readonly disabled="yes" required >
+          <select name="inputStyle" class="form-control" id="inputStyle" required>
             <option value="" />- select style -</option>
             {% if style_list %}
                 {% for key, value in style_list.items %}
                 <option value="{{ key }}" 
-                    {% if object.style == key %}
+                    {% if newstyle == key %}
                         selected="yes"
                     {% endif %}
                     />{{ value }}</option>
@@ -82,15 +99,22 @@
             {% else %}
                 <option value="" />No styles available!</option>
             {% endif %}
-        </select>
+          </select>
+            <div class="valid-feedback">
+                Looks good!
+            </div>
+            <div class="invalid-feedback">
+                Please select a style.
+            </div>
         </div>
         <div class="form-group col-md-3">
           <label for="inputOwner">Owner</label>
-          <input type="text" class="form-control" id="inputOwner" name="inputOwner" value="{{ object.owner }}" readonly>
+          <input type="text" class="form-control" id="inputOwner" name="inputOwner" 
+            value="{% if user.is_authenticated %}{{ user.get_username }}{% endif %}" readonly>
         </div>
         <div class="form-group col-md-3">
             <div class="form-check">
-                <input class="form-check-input" type="checkbox" id="inputLinenos" name="inputLinenos" readonly disabled="yes" 
+                <input class="form-check-input" type="checkbox" id="inputLinenos" name="inputLinenos" 
                 {% if object.linenos %}
                     checked
                 {% endif %}
@@ -105,10 +129,7 @@
       <label for="inputCode">Highlighted</label>
       <textarea class="form-control" id="inputHighlighted" rows="3" name="inputHighlighted"  value="{{ object.highlighted }}" readonly></textarea>
     </div> -->
-    <button id="btnEdit" type="button" class="btn btn-primary d-none">Edit</button>
-    <button id="btnUpdate" type="submit" class="btn btn-primary d-none">Update</button>
-    <button id="btnDeleteSnippet" type="button" class="btn btn-danger d-none">Delete</button>
-    <button id="btnCreateSnippetFromSnippet" type="button" class="btn btn-success">Create New</button>
+    <button id="btnCreateSnippet" type="submit" class="btn btn-primary">Create</button>
   </form>
 
 
@@ -123,25 +144,14 @@
         </p>
     </div>
 </div>
+
 <form action="{% url 'snippets:snippet-list' %}" method="post" id="returntolistform">
     {% csrf_token %}
-    <input type="hidden" name="filter_language" id="filter_language" value="{{ object.language }}" />
-    <input type="hidden" name="filter_style" id="filter_style" value="{{ object.style }}" />
+    <input type="hidden" name="filter_language" id="filter_language" value="{{ newlanguage }}" />
+    <input type="hidden" name="filter_style" id="filter_style" value="{{ newstyle }}" />
+</div>
 </form>   
 
 
-<form action="{% url 'snippets:snippet-create' %}" method="post" id="createNewSnippetForm">
-    {% csrf_token %}
-    <input type="hidden" name="newlanguage" id="newlanguage" value="" placeholder="language" />
-    <input type="hidden" name="newstyle" id="newstyle" value="friendly" placeholder="style (blank here)" />
-</form>
 
-
-<form action="{% url 'snippets:snippet-delete' object.id %}" method="post" id="deleteSnippetForm">
-    {% csrf_token %}
-    <input type="hidden" name="newlanguage" id="newlanguage" value="" placeholder="language" />
-    <input type="hidden" name="newstyle" id="newstyle" value="friendly" placeholder="style (blank here)" />
-</form>
-
- 
 {% endblock %}
